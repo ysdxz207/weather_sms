@@ -31,3 +31,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         SCHEDULER.shutdown()
         print 'Started error!'
+

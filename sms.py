@@ -16,29 +16,27 @@ logging.basicConfig(filename='sms.log', level=logging.ERROR, format=FORMAT)
 
 class Sms:
     def __init__(self):
-        self.city = '成都'
         self.app_key = "23653018"
         self.app_secret = "8ab1387ce04deabf6fb11e049e9c5523"
-        self.telephones = {'185****2157': 'children', '158****7129': 'parents'}
+        self.telephones = {'185****2157': ('children', '成都市'), '1584****129': ('parents', '海城市')}
         self.req = top.setDefaultAppInfo(self.app_key, self.app_secret)
         self.req = top.api.AlibabaAliqinFcSmsNumSendRequest()
         self.req.sms_type = "normal"
         self.req.sms_free_sign_name = "推他新闻"
-        self.req.sms_template_code = 'SMS_******'
+        self.req.sms_template_code = 'SMS_*****'
 
     def send_sms(self):
 
-        weather = Weather(self.city)
-
-        for telephone, weather_type in self.telephones.items():
+        for telephone, conf in self.telephones.items():
             print telephone
             if telephone == '':
                 continue
 
-            weather_str = weather.get_weather_str(weather_type)
+            weather = Weather(conf[1])
+            weather_str = weather.get_weather_str(conf[0])
             self.req.rec_num = telephone.decode('utf-8').encode('ascii')
             self.req.sms_param = "{city:'%s',weather:'%s'}" % (
-                self.city, weather_str)
+                conf[1], weather_str)
             try:
                 resp = self.req.getResponse()
                 if resp['alibaba_aliqin_fc_sms_num_send_response']['result']['success']:
