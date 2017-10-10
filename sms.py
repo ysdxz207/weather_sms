@@ -19,7 +19,6 @@ class Sms:
     def __init__(self):
         self.app_key = "23653018"
         self.app_secret = "8ab1387ce04deabf6fb11e049e9c5523"
-        self.telephones = {'185****2157': ('children', '成都市'), '158****7129': ('parents', '海城市')}
         self.req = top.setDefaultAppInfo(self.app_key, self.app_secret)
         self.req = top.api.AlibabaAliqinFcSmsNumSendRequest()
         self.req.sms_type = "normal"
@@ -32,7 +31,6 @@ class Sms:
         self.req.sms_param = "{city:'%s',weather:'%s'}" % (
             city, weather_str)
 
-        print "发送消息给" + mobile + ":" + weather_str + "," + city
         try:
             resp = self.req.getResponse()
             if resp['alibaba_aliqin_fc_sms_num_send_response']['result']['success']:
