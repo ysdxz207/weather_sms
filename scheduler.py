@@ -23,6 +23,9 @@ class Scheduler:
         minute = conf['minute'].encode("ascii")
         second = conf['second'].encode("ascii")
 
+        if not mobile.strip():
+            return
+
         self.SCHEDULER.add_job(func=self.get_weather_and_send_sms,
                           args=[conf], trigger='cron',
                           day='*/1', hour=hour, minute=minute, second=second, id=('corn_job' + mobile))
